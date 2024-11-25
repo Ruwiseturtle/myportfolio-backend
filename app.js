@@ -18,7 +18,7 @@ app.use(express.json());                                              // пар�
 app.use(express.static("public"));                                    // якщо прийде запит на файли, бере його з  папки Public. Налаштування express на роздачу статичних файлів з папки public (тобто, щоб файли з папки public було видно в браузеры, а інші ні, бо можна побачити код файлів)
 
 app.use("/api/users", authRouter);
-app.use("/api/contacts", projectsRouter);
+app.use("/api/projects", projectsRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
