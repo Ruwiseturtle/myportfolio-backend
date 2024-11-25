@@ -4,7 +4,7 @@ const cors = require("cors");                                         // cors - 
 const dotenv = require("dotenv");                                     // для того, щоб добавити змінну в змінні оточення
 
 const authRouter = require("./routes/api/users");
-const projectsRouter = require("./routes/api/myprojects");
+const projectsRouter = require("./routes/api/projects");
 
 dotenv.config();                                                       // шукає файл .env і додає дані з файлу у змінні оточення
 
