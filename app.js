@@ -3,7 +3,7 @@ const logger = require("morgan");                                     // для 
 const cors = require("cors");                                         // cors - всередині неї запускається мідлваре, де запускається дозвіл на кросдоменні запити (коли фронтенд і бекенд запущені на різних серверах)
 const dotenv = require("dotenv");                                     // для того, щоб добавити змінну в змінні оточення
 
-const authRouter = require("./routes/api/users");
+// const authRouter = require("./routes/api/users");
 const projectsRouter = require("./routes/api/projects");
 
 dotenv.config();                                                       // шукає файл .env і додає дані з файлу у змінні оточення
