@@ -40,7 +40,7 @@ const updateFavoriteSchema = Joi.object({
   favorite: Joi.boolean().required(),
 });
 
-const Projects = model("project", projectsSchema);
+const Projects = model("myprojects", projectsSchema);
 
 const schemas = {
   updateFavoriteSchema,
