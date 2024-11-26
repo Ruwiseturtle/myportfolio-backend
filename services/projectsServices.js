@@ -1,5 +1,5 @@
 // const { Types } = require("mongoose");
-const { Projects }  = require("../models/projects");
+const { Projects } = require("../models/projects");
 // const { User } = require("../models/user");
 // const { HttpError, sendEmail } = require("../helpers");
 // const bcrypt = require("bcrypt");
@@ -16,4 +16,4 @@ const { Projects }  = require("../models/projects");
 exports.getAllProjects = async (user, query) => {
   const result = await Projects.find();
   return result;
-} 
+};
