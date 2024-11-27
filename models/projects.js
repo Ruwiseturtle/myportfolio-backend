@@ -3,6 +3,8 @@ const Joi = require("joi"); // joi - для перевірки даних, як�
 
 const handleMongooseError = require("../middleswares/handleMongooseError");
 
+const frameworksList = ["React", "NextJs", "React native", "Redux", "Javascript", "HTML", "CSS"];
+
 const projectsSchema = new Schema(
   {
     // для перевірки даних, які відправляємо на бекенд
@@ -17,6 +19,8 @@ const projectsSchema = new Schema(
     },
     frameworks: {
       type: String,
+      enum: frameworksList,
+      required: true,
     },
     project_type: {
       type: String,
@@ -32,8 +36,8 @@ const addSchema = Joi.object({
   image: Joi.string().required(),
   title: Joi.string().required(),
   link: Joi.string().required(),
-  frameworks: Joi.string().required(),
-  project_type: Joi.string().required()
+  frameworks: Joi.string().valid(...frameworksList).required(),
+  project_type: Joi.string().required(),
 });
 
 const updateFavoriteSchema = Joi.object({
