@@ -1,4 +1,5 @@
 // const { Types } = require("mongoose");
+const { log } = require("console");
 const { Projects } = require("../models/projects");
 const { User } = require("../models/user");
 // const { HttpError, sendEmail } = require("../helpers");
@@ -25,6 +26,7 @@ exports.getAllProjects = async (user, query) => {
 //реєстрація нового користувача (заводимо нового користувача в базу)
 exports.signup = async (userdata) => {
   const { email, password } = userdata;
+  console.log('===============заводимо нового кристувача=====================');
 
   const user = await User.findOne({ email });
 

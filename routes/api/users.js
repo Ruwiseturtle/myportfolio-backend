@@ -4,7 +4,7 @@ const router = express.Router(); // створюємо router (це як зап�
 
 const ctrl = require("../../controllers/users");
 
-const { validateBody, authenticate, upload } = require("../../middleswares");
+const { validateBody, authenticate, upload } = require("../../middleswares/");
 
 const { schemas } = require("../../models/user");
 
