@@ -22,7 +22,7 @@ exports.getAllProjects = async (user, query) => {
   return result;
 };
 
-
+//реєстрація нового користувача (заводимо нового користувача в базу)
 exports.signup = async (userdata) => {
   const { email, password } = userdata;
 
@@ -43,13 +43,13 @@ exports.signup = async (userdata) => {
     verificationToken,
   });
 
-  const verifyEmail = {
-    to: email,
-    subject: "Verify email",
-    html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${verificationToken}">Click verify email</a>`,
-  };
+  // const verifyEmail = {
+  //   to: email,
+  //   subject: "Verify email",
+  //   html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${verificationToken}">Click verify email</a>`,
+  // };
 
-  await sendEmail(verifyEmail);
+  // await sendEmail(verifyEmail);
 
   return newUser;
 };

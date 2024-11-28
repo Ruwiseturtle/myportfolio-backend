@@ -6,7 +6,7 @@ const { contactServices } = require("../services");
 const { SECRET_KEY } = process.env;
 
 /**
- * @призначення для регістриції користувача
+ * @призначення для регістрації користувача (заводимо нового користувача в базу)
  * reload hw-6
  */
 const registerUser = async (req, res, next) => {
