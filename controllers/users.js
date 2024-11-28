@@ -1,7 +1,7 @@
 const { ctrlWrapper, HttpError } = require("../helpers"); // імпортуємо помилку для прокидування
 const { User } = require("../models/user");
 
-const { contactServices } = require("../services");
+const { projectsServices } = require("../services");
 
 const { SECRET_KEY } = process.env;
 
@@ -10,7 +10,9 @@ const { SECRET_KEY } = process.env;
  * reload hw-6
  */
 const registerUser = async (req, res, next) => {
-  const { email, password, subscription } = await contactServices.signup(req.body);
+  const { email, password, subscription } = await projectsServices.signup(
+    req.body
+  );
 
   res.status(201).json({
     user: {
