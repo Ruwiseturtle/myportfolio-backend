@@ -10,15 +10,13 @@ const { SECRET_KEY } = process.env;
  * reload hw-6
  */
 const registerUser = async (req, res, next) => {
-  const { email, password, subscription } = await projectsServices.signup(
-    req.body
-  );
+  const { login, email, password } = await projectsServices.signup(req.body);
 
   res.status(201).json({
     user: {
+      login: login,
       email: email,
       password: password,
-      subscription: subscription,
     },
   });
 };
