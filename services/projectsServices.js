@@ -54,5 +54,41 @@ exports.signup = async (userdata) => {
 
   // await sendEmail(verifyEmail);
 
+  /***
+   * @приймає req.body
+   * @робить авторизує користувача
+   * @вертає користувача, якщо такий є і новий токен для нього
+   */
+  exports.login = async (email, password) => {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      throw HttpError(401, "Email or password is wrong");
+    }
+
+    if (!user.verify) {
+      throw HttpError(401, "Email not verify");
+    }
+
+    const passwordCompare = await bcrypt.compare(password, user.password);
+
+    if (!passwordCompare) {
+      throw HttpError(401, "Email or password invalid");
+    }
+
+    const payload = {
+      id: user._id,
+    };
+
+    //для генерації токена відправляється id користувача, секретний ключ, який самі придумуємо і записуємо в env
+    //та в expiresIn вказуємо, скільки буде "жити" токен
+    const token = jwt.sign(payload, process.env.SECRET_KEY, {
+      expiresIn: "24h",
+    });
+    await User.findByIdAndUpdate(user._id, { token }); //записуємо цей токен в базу
+
+    return { user, token };
+  };
+  
   return newUser;
 };
