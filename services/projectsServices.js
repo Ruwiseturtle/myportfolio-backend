@@ -15,6 +15,8 @@ const { nanoid } = require("nanoid");
 
 // const { BASE_URL } = process.env;
 
+/************************************************************/
+
 // отримання усіх проектів
 //в метод find() можна передавати критерії пошуку. Наприклад (find({title: "the best book", description:"trala"}))
 //буде шукати значення з title "the best book" та description "trala". Якщо не знайде, верне пустий масив
@@ -25,6 +27,7 @@ exports.getAllProjects = async (user, query) => {
   return result;
 };
 
+/************************************************************/
 //реєстрація нового користувача (заводимо нового користувача в базу)
 exports.signup = async (userdata) => {
   const { email, password } = userdata;
@@ -54,6 +57,10 @@ exports.signup = async (userdata) => {
 
   // await sendEmail(verifyEmail);
 
+   return newUser;
+};
+
+/************************************************************/ 
   /***
    * @приймає req.body
    * @робить авторизує користувача
@@ -90,5 +97,4 @@ exports.signup = async (userdata) => {
     return { user, token };
   };
   
-  return newUser;
-};
+  

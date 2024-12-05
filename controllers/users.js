@@ -18,7 +18,6 @@ console.log('====================================');
     user: {
       login: login,
       email: email,
-      password: password,
       token: verificationToken,
     },
   });
