@@ -2,10 +2,9 @@
 // const { log } = require("console");
 const { Projects } = require("../models/projects");
 const { User } = require("../models/user");
-// const { HttpError, sendEmail } = require("../helpers");
-const { HttpError } = require("../helpers");
+const { HttpError, sendEmail } = require("../helpers");
 const bcrypt = require("bcrypt");
-// const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 // const gravatar = require("gravatar"); // пакет для генерації аватара по емейл
 // const path = require("path");
 // const fs = require("fs/promises"); // відмовідає за всі операції з файлами
@@ -13,7 +12,7 @@ const bcrypt = require("bcrypt");
 const { nanoid } = require("nanoid");
 
 
-// const { BASE_URL } = process.env;
+const { BASE_URL } = process.env;
 
 /************************************************************/
 
@@ -41,7 +40,7 @@ exports.signup = async (userdata) => {
   const hashPassword = await bcrypt.hash(password, 10); //хешуємо пароль (без можливості розшифрувати. 10 це сіль, тобто сила шифрування)
   // const avatarURL = gravatar.url(email); // створюємо аватарку автоматично
   const verificationToken = nanoid();
-
+  
   const newUser = await User.create({
     ...userdata,
     password: hashPassword,
@@ -49,13 +48,13 @@ exports.signup = async (userdata) => {
     verificationToken,
   });
 
-  // const verifyEmail = {
-  //   to: email,
-  //   subject: "Verify email",
-  //   html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${verificationToken}">Click verify email</a>`,
-  // };
+  const verifyEmail = {
+    to: email,
+    subject: "Verify email",
+    html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${verificationToken}">Click verify email</a>`,
+  };
 
-  // await sendEmail(verifyEmail);
+  await sendEmail(verifyEmail);
 
    return newUser;
 };

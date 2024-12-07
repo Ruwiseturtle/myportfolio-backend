@@ -10,11 +10,11 @@ const { schemas } = require("../../models/user");
 
 // signup
 router.post("/register", validateBody(schemas.registerSchema), ctrl.registerUser);
-// router.get("/verify/:verificationToken", ctrl.verifyEmail); // для підтверження емейлу
-// router.post("/verify", validateBody(schemas.EmailSchema, ctrl.resendVerifyEmail)); // для повторного підтверження емейлу
+router.get("/verify/:verificationToken", ctrl.verifyEmail); // для підтверження емейлу
+router.post("/verify", validateBody(schemas.EmailSchema, ctrl.resendVerifyEmail)); // для повторного підтверження емейлу
 router.post("/login", validateBody(schemas.registerSchema), ctrl.loginUser);
-// router.post("/logout", authenticate, ctrl.logoutUser);
-// router.get("/current", authenticate, ctrl.getCurrentUser);
+router.post("/logout", authenticate, ctrl.logoutUser);
+router.get("/current", authenticate, ctrl.getCurrentUser);
 // router.patch("/:userId/subscription",  authenticate,  ctrl.updateUserSubscription);
 // // upload.fields([{name: "cover", maxCount:1}, {name: "subcover", maxCount:2}]) // очікуємо в двух полях файли (назва поля, максимальна кі-сть файлів)
 // // upload.array("avatar", 8); // очікуємо кілька файлів (до 8 шт) в полі avatar
