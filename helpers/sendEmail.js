@@ -1,14 +1,19 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-const { META_PASSWORD } = process.env;
+const { META_PASSWORD, EMAIL_USER } = process.env;
+
+console.log("############# META_PASSWORD ##################");
+console.log(META_PASSWORD);
+console.log("############# EMAIL_USER ##################");
+console.log(EMAIL_USER);
 
 const nodemailerConfig = {
   host: "smtp.meta.ua", // адреса поштового сервера, до якого потрібно підключитися
   port: 465, // 465 - захищений порт 25 2525 - не захищені. порт поштового сервера, до якого потрібно підключитися
   secure: true, // треба  шифрувати трафік чи ні. Оскільки порт 465, то треба
   auth: {
-    user: "goit_ruslana@meta.ua",
+    user: EMAIL_USER,
     pass: META_PASSWORD,
   },
 };
@@ -17,7 +22,7 @@ const transport = nodemailer.createTransport(nodemailerConfig); //  обект, 
 
 // ф-ція sendEmail
 const sendEmail = async (data) => {
-  const email = { ...data, from: "goit_ruslana@meta.ua" };
+  const email = { ...data, from: EMAIL_USER };
 
   transport
     .sendMail(email)
