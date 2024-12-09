@@ -3,10 +3,6 @@ require("dotenv").config();
 
 const { META_PASSWORD, EMAIL_USER } = process.env;
 
-console.log("############# META_PASSWORD ##################");
-console.log(META_PASSWORD);
-console.log("############# EMAIL_USER ##################");
-console.log(EMAIL_USER);
 
 const nodemailerConfig = {
   host: "smtp.meta.ua", // адреса поштового сервера, до якого потрібно підключитися
@@ -22,7 +18,10 @@ const transport = nodemailer.createTransport(nodemailerConfig); //  обект, 
 
 // ф-ція sendEmail
 const sendEmail = async (data) => {
-  const email = { ...data, from: EMAIL_USER };
+  const email = {
+    ...data,
+    from: '"Ruslana Portfolio" <goit_ruslana@meta.ua>'
+  };
 
   transport
     .sendMail(email)
@@ -34,6 +33,7 @@ const sendEmail = async (data) => {
 
 module.exports = sendEmail;
 
+// ***************************************************
 // const email = {
 //   to: "hisacev844@ubinert.com",
 //   from: "goit_ruslana@meta.ua",

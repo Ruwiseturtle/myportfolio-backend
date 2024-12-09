@@ -51,7 +51,10 @@ exports.signup = async (userdata) => {
   const verifyEmail = {
     to: email,
     subject: `Verify email ${email} on Ruslana's portfolio`,
-    html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${verificationToken}">Click verify email</a>`,
+    html: `<p>Hello!</p>
+         <p>Please confirm your email address by clicking the link below:</p>
+         <a href="${BASE_URL}/api/users/verify/${verificationToken}">Verify Email</a>
+         <p>If you did not request this, you can safely ignore this email.</p>`,
   };
 
   await sendEmail(verifyEmail);
