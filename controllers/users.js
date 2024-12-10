@@ -84,7 +84,7 @@ const loginUser = async (req, res, next) => {
 }
 
 const logoutUser = async (req, res, next) => {
-  const { msg } = await contactServices.logOut(req.user);
+  const { msg } = await projectsServices.logOut(req.user);
 
   res.json({
     message: msg,

@@ -99,4 +99,13 @@ exports.signup = async (userdata) => {
     return { user, token };
   };
   
-  
+  /***
+ * @робить удаляє токен для користувача для розлогінення
+ */
+exports.logOut = async(user) => {
+  const { _id } = user;
+
+  const result = await User.findByIdAndUpdate(_id, { token: "" });
+
+  return "Logout success";
+}
