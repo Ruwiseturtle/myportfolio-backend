@@ -70,6 +70,9 @@ const resendVerifyEmail = async (req, res) => {
 
 const loginUser = async (req, res, next) => {
   const { user, token } = await projectsServices.login(req.body.email, req.body.password);
+  console.log("user backend loginUser");
+  
+console.log(user);
 
   res.status(200).json({
     ResponseBody: {
@@ -83,8 +86,12 @@ const loginUser = async (req, res, next) => {
 
 }
 
+console.log("hhhhhhhhhhhhhhhhhhhh");
+
 const logoutUser = async (req, res, next) => {
+  console.log("trala ");
   const { msg } = await projectsServices.logOut(req.user);
+  console.log("dada");
 
   res.json({
     message: msg,
@@ -92,7 +99,7 @@ const logoutUser = async (req, res, next) => {
 };
 
 const getCurrentUser = async (req, res, next) => {
-  const { email, subscription } = await contactServices.getCurrent(req.user);
+  const { email, subscription } = await projectsServices.getCurrent(req.user);
 
   res.json({
     email: email,
@@ -105,8 +112,8 @@ module.exports = {
   loginUser: ctrlWrapper(loginUser),
   logoutUser: ctrlWrapper(logoutUser),
   getCurrentUser: ctrlWrapper(getCurrentUser),
-//   updateUserSubscription: ctrlWrapper(updateUserSubscription),
-//   updateUserAvatar: ctrlWrapper(updateUserAvatar),
+  //   updateUserSubscription: ctrlWrapper(updateUserSubscription),
+  //   updateUserAvatar: ctrlWrapper(updateUserAvatar),
   verifyEmail: ctrlWrapper(verifyEmail),
   resendVerifyEmail: ctrlWrapper(resendVerifyEmail),
 };

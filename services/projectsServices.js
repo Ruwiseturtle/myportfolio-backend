@@ -11,7 +11,6 @@ const jwt = require("jsonwebtoken");
 // const Jimp = require("jimp"); // пакет для обробки зображення (якщо, напр. користувач буде присилати велике зобр)
 const { nanoid } = require("nanoid");
 
-
 const { BASE_URL } = process.env;
 
 /************************************************************/
@@ -19,7 +18,7 @@ const { BASE_URL } = process.env;
 // отримання усіх проектів
 //в метод find() можна передавати критерії пошуку. Наприклад (find({title: "the best book", description:"trala"}))
 //буде шукати значення з title "the best book" та description "trala". Якщо не знайде, верне пустий масив
-//const result = await Projects.find({}, "title author"); верне масив тільки з полями title author, 
+//const result = await Projects.find({}, "title author"); верне масив тільки з полями title author,
 // а якщо перед полем поставити мінус то це ми позначимо, які поля нетреба повертати
 exports.getAllProjects = async (user, query) => {
   const result = await Projects.find();
@@ -40,7 +39,7 @@ exports.signup = async (userdata) => {
   const hashPassword = await bcrypt.hash(password, 10); //хешуємо пароль (без можливості розшифрувати. 10 це сіль, тобто сила шифрування)
   // const avatarURL = gravatar.url(email); // створюємо аватарку автоматично
   const verificationToken = nanoid();
-  
+
   const newUser = await User.create({
     ...userdata,
     password: hashPassword,
@@ -59,53 +58,53 @@ exports.signup = async (userdata) => {
 
   await sendEmail(verifyEmail);
 
-   return newUser;
+  return newUser;
 };
 
-/************************************************************/ 
-  /***
-   * @приймає req.body
-   * @робить авторизує користувача
-   * @вертає користувача, якщо такий є і новий токен для нього
-   */
-  exports.login = async (email, password) => {
-    const user = await User.findOne({ email });
+/************************************************************/
+/***
+ * @приймає req.body
+ * @робить авторизує користувача
+ * @вертає користувача, якщо такий є і новий токен для нього
+ */
+exports.login = async (email, password) => {
+  const user = await User.findOne({ email });
 
-    if (!user) {
-      throw HttpError(401, "Email or password is wrong");
-    }
+  if (!user) {
+    throw HttpError(401, "Email or password is wrong");
+  }
 
-    if (!user.verify) {
-      throw HttpError(401, "Email not verify"); //потім розкоментувати
-    }
+  if (!user.verify) {
+    throw HttpError(401, "Email not verify"); //потім розкоментувати
+  }
 
-    const passwordCompare = await bcrypt.compare(password, user.password);
+  const passwordCompare = await bcrypt.compare(password, user.password);
 
-    if (!passwordCompare) {
-      throw HttpError(401, "Email or password invalid");
-    }
+  if (!passwordCompare) {
+    throw HttpError(401, "Email or password invalid");
+  }
 
-    const payload = {
-      id: user._id,
-    };
-
-    //для генерації токена відправляється id користувача, секретний ключ, який самі придумуємо і записуємо в env
-    //та в expiresIn вказуємо, скільки буде "жити" токен
-    const token = jwt.sign(payload, process.env.SECRET_KEY, {
-      expiresIn: "24h",
-    });
-    await User.findByIdAndUpdate(user._id, { token }); //записуємо цей токен в базу
-
-    return { user, token };
+  const payload = {
+    id: user._id,
   };
-  
-  /***
+
+  //для генерації токена відправляється id користувача, секретний ключ, який самі придумуємо і записуємо в env
+  //та в expiresIn вказуємо, скільки буде "жити" токен
+  const token = jwt.sign(payload, process.env.SECRET_KEY, {
+    expiresIn: "24h",
+  });
+  await User.findByIdAndUpdate(user._id, { token }); //записуємо цей токен в базу
+
+  return { user, token };
+};
+
+/***
  * @робить удаляє токен для користувача для розлогінення
  */
 exports.logOut = async(user) => {
   const { _id } = user;
 
-  const result = await User.findByIdAndUpdate(_id, { token: "" });
+  const result = await Contact.findByIdAndUpdate(_id, { token: '' });
 
   return "Logout success";
 }
