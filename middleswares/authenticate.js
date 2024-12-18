@@ -7,27 +7,23 @@ const { HttpError } = require("../helpers");
 const { SECRET_KEY } = process.env;
 
 const authenticate = async (req, res, next) => {
-  console.log("authenticate куку");
-  
   const { authorization = "" } = req.headers;
   const [bearer, token] = authorization.split(" ");
-
+  
   if (bearer !== "Bearer") {
-    next(HttpError(401, "Not authorized"));
+    next(HttpError(401));
   }
   try {
-    const { id } = jwt.verify(token, process.env.SECRET_KEY);
+    const { id } = jwt.verify(token, SECRET_KEY);
     const user = await User.findById(id);
     if (!user || !user.token || user.token !== token) {
-      // якщо юзера в бд немає, або якщо немає такого токета,
       next(HttpError(401));
     }
     req.user = user;
     next();
   } catch {
-    next(HttpError(401, "Not authorized"));
+    next(HttpError(401));
   }
-  console.log("аутентифікацію пройшли");
 };
 
 module.exports = authenticate;

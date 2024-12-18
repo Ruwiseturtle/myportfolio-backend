@@ -108,3 +108,9 @@ exports.logOut = async(user) => {
 
   return "Logout success";
 }
+
+exports.getCurrent = (user) => {
+  const { email, login } = user;
+
+  return { email, login };
+};

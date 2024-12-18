@@ -1,3 +1,4 @@
+const { log } = require("console");
 const { ctrlWrapper, HttpError } = require("../helpers"); // імпортуємо помилку для прокидування
 const { User } = require("../models/user");
 
@@ -29,13 +30,15 @@ const verifyEmail = async (req, res) => {
     throw HttpError(401, "Email found");
   }
 
-  await User.findByIdAndUpdate(user._id, { verify: true, verificationToken: "" });
+  await User.findByIdAndUpdate(user._id, {
+    verify: true,
+    verificationToken: "",
+  });
 
   res.status(200).json({
     message: "Email verify success",
   });
-
-}
+};
 
 // для повторної відправки емейлу
 const resendVerifyEmail = async (req, res) => {
@@ -51,28 +54,31 @@ const resendVerifyEmail = async (req, res) => {
     // throw HttpError(401, "Email already verify");
   }
 
-   const verifyEmail = {
-     to: email,
-     subject: "Verify email",
-     html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${user.verificationToken}">Click verify email</a>`,
-   };
+  const verifyEmail = {
+    to: email,
+    subject: "Verify email",
+    html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${user.verificationToken}">Click verify email</a>`,
+  };
 
-   await sendEmail(verifyEmail);
+  await sendEmail(verifyEmail);
 
   res.json({
-    message: "Verify email send success"
-  })
-}
+    message: "Verify email send success",
+  });
+};
 
 /**
  * @призначення для авторизації користувача
  */
 
 const loginUser = async (req, res, next) => {
-  const { user, token } = await projectsServices.login(req.body.email, req.body.password);
+  const { user, token } = await projectsServices.login(
+    req.body.email,
+    req.body.password
+  );
   console.log("user backend loginUser");
-  
-console.log(user);
+
+  console.log(user);
 
   res.status(200).json({
     ResponseBody: {
@@ -83,8 +89,7 @@ console.log(user);
       },
     },
   });
-
-}
+};
 
 console.log("hhhhhhhhhhhhhhhhhhhh");
 
@@ -99,11 +104,13 @@ const logoutUser = async (req, res, next) => {
 };
 
 const getCurrentUser = async (req, res, next) => {
-  const { email, subscription } = await projectsServices.getCurrent(req.user);
+  console.log("123");
+
+  const { email, login } = await projectsServices.getCurrent(req.user);
 
   res.json({
     email: email,
-    subscription: subscription,
+    login: login,
   });
 };
 
