@@ -76,9 +76,7 @@ const loginUser = async (req, res, next) => {
     req.body.email,
     req.body.password
   );
-  console.log("user backend loginUser");
-
-  console.log(user);
+  
 
   res.status(200).json({
     ResponseBody: {
@@ -91,12 +89,9 @@ const loginUser = async (req, res, next) => {
   });
 };
 
-console.log("hhhhhhhhhhhhhhhhhhhh");
 
 const logoutUser = async (req, res, next) => {
-  console.log("trala ");
   const { msg } = await projectsServices.logOut(req.user);
-  console.log("dada");
 
   res.json({
     message: msg,
@@ -104,21 +99,33 @@ const logoutUser = async (req, res, next) => {
 };
 
 const getCurrentUser = async (req, res, next) => {
-  console.log("123");
-
-  const { email, login } = await projectsServices.getCurrent(req.user);
-
+ const { email, login } = await projectsServices.getCurrent(req.user);
+  
   res.json({
     email: email,
     login: login,
   });
 };
 
+// ф-ція приймає емейл для скидання паролю. Перевіряє чи є такий емейл (потім вертає помилку, якщо немає)
+// якщо емейл такий існує генерує код, записує його в бд юзеру з цим емейлом
+// і відправляє лист на його емейл із ссилкою, в якій можна зчитати цей верифікаційний код.
+const sendEmailForResetPassword = async (req, res) => {
+  const { email, login } = await contactServices.forgotPassword(req.body.email);
+
+    res.json({
+    email: email,
+    login: login,
+  });
+};
+
+
 module.exports = {
   registerUser: ctrlWrapper(registerUser),
   loginUser: ctrlWrapper(loginUser),
   logoutUser: ctrlWrapper(logoutUser),
   getCurrentUser: ctrlWrapper(getCurrentUser),
+  sendEmailForResetPassword: ctrlWrapper(sendEmailForResetPassword),
   //   updateUserSubscription: ctrlWrapper(updateUserSubscription),
   //   updateUserAvatar: ctrlWrapper(updateUserAvatar),
   verifyEmail: ctrlWrapper(verifyEmail),

@@ -2,7 +2,7 @@
 // const { log } = require("console");
 const { Projects } = require("../models/projects");
 const { User } = require("../models/user");
-const { HttpError, sendEmail } = require("../helpers");
+const { HttpError, sendEmail, sendResetPasswordEmail } = require("../helpers");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 // const gravatar = require("gravatar"); // пакет для генерації аватара по емейл
@@ -90,9 +90,7 @@ exports.login = async (email, password) => {
 
   //для генерації токена відправляється id користувача, секретний ключ, який самі придумуємо і записуємо в env
   //та в expiresIn вказуємо, скільки буде "жити" токен
-  const token = jwt.sign(payload, process.env.SECRET_KEY, {
-    expiresIn: "24h",
-  });
+  const token = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: "24h",});
   await User.findByIdAndUpdate(user._id, { token }); //записуємо цей токен в базу
 
   return { user, token };
@@ -111,6 +109,33 @@ exports.logOut = async(user) => {
 
 exports.getCurrent = (user) => {
   const { email, login } = user;
-
+  
   return { email, login };
+};
+
+exports.forgotPassword = async (email) => {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(200).json({
+        message: "The letter has been sent if the email is registered.",
+      });
+    }
+
+      const verificationToken = nanoid();    
+
+      await User.findByIdAndUpdate(user._id, {verificationToken}); //записуємо верифікаційний токен в базу
+
+      const resetLink = `https://your-frontend.com/reset-password?verificationToken=${verificationToken}`;
+
+      const verifyEmail = {
+        to: email,
+        subject: `Password reset for ${email} on Ruslana's portfolio`,
+        html: `Click on the link to reset your password: ${resetLink}`,
+      };
+
+    await sendEmail(verifyEmail);
+    
+  res.status(200).send("Letter sent");
+  return user;
 };
