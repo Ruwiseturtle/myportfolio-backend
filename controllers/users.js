@@ -111,6 +111,9 @@ const getCurrentUser = async (req, res, next) => {
 // якщо емейл такий існує генерує код, записує його в бд юзеру з цим емейлом
 // і відправляє лист на його емейл із ссилкою, в якій можна зчитати цей верифікаційний код.
 const sendEmailForResetPassword = async (req, res) => {
+  console.log("sendEmailForResetPassword backend");
+  console.log(req.body);
+  
   const { email, login } = await contactServices.forgotPassword(req.body.email);
 
     res.json({
