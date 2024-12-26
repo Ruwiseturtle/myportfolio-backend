@@ -3,6 +3,10 @@ const { HttpError } = require("../helpers");
 const validateBody = (schema) => {
   const func = (req, res, next) => {
     console.log("валідація даних, які прийшли");
+    
+    console.log(" HttpError validateBody");    
+    console.log(req.body);
+    
     const { error } = schema.validate(req.body);
     if (error) {
       console.log("не пройшла валідацію joi");

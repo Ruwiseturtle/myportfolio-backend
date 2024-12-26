@@ -111,7 +111,7 @@ exports.getCurrent = (user) => {
   const { email, login } = user;
   
   return { email, login };
-};
+}
 
 exports.forgotPassword = async (email) => {
     const user = await User.findOne({ email });
@@ -136,6 +136,6 @@ exports.forgotPassword = async (email) => {
 
     await sendEmail(verifyEmail);
     
-  res.status(200).send("Letter sent");
-  return user;
+ 
+  return res.status(200).send("Letter sent");;
 };
