@@ -117,9 +117,7 @@ exports.forgotPassword = async (email) => {
   const user = await User.findOne({ email });
   
     if (!user) {
-      return res.status(200).json({
-        message: "The letter has been sent if the email is registered.",
-      });
+      return "The letter has been sent if the email is registered.";
     }
 
       const verificationToken = nanoid();    
@@ -132,7 +130,7 @@ exports.forgotPassword = async (email) => {
       const verifyEmail = {
         to: email,
         subject: `Password reset for ${email} on Ruslana's portfolio`,
-        html: `Click on the link to reset your password: ${resetLink}`,
+        html: `Click on the link to reset your password: <a href="${resetLink}">${resetLink}</a>`,
       };
 
     await sendEmail(verifyEmail);
