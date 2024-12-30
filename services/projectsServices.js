@@ -123,7 +123,6 @@ exports.forgotPassword = async (email) => {
       const verificationToken = nanoid();    
 
       await User.findByIdAndUpdate(user._id, {verificationToken}); //записуємо верифікаційний токен в базу
- 
   
       const resetLink = `https://your-frontend.com/reset-password?verificationToken=${verificationToken}`;
 
@@ -135,6 +134,6 @@ exports.forgotPassword = async (email) => {
 
     await sendEmail(verifyEmail);
   
- return  "Letter sent"
+ return "The email has been sent. Now you can open your email and follow the link to change your password.";
     
 };
