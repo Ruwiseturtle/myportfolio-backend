@@ -114,10 +114,10 @@ const sendEmailForResetPassword = async (req, res, next) => {
   console.log("sendEmailForResetPassword backend");
   console.log(req.body);
   
-  const { msg } = await projectsServices.forgotPassword(req.body.email);
+  const  message  = await projectsServices.forgotPassword(req.body.email);
 
-    res.json({
-      message: msg,
+    res.status(201).json({
+      message: message,
     });
 };
 

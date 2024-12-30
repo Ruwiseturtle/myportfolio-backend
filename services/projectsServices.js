@@ -114,8 +114,8 @@ exports.getCurrent = (user) => {
 }
 
 exports.forgotPassword = async (email) => {
-    const user = await User.findOne({ email });
-
+  const user = await User.findOne({ email });
+  
     if (!user) {
       return res.status(200).json({
         message: "The letter has been sent if the email is registered.",
@@ -125,7 +125,8 @@ exports.forgotPassword = async (email) => {
       const verificationToken = nanoid();    
 
       await User.findByIdAndUpdate(user._id, {verificationToken}); //записуємо верифікаційний токен в базу
-
+ 
+  
       const resetLink = `https://your-frontend.com/reset-password?verificationToken=${verificationToken}`;
 
       const verifyEmail = {
@@ -135,7 +136,7 @@ exports.forgotPassword = async (email) => {
       };
 
     await sendEmail(verifyEmail);
+  
+ return  "Letter sent"
     
- 
-  return res.status(200).send("Letter sent");;
 };
