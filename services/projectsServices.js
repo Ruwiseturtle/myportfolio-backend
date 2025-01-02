@@ -124,7 +124,7 @@ exports.forgotPassword = async (email) => {
 
       await User.findByIdAndUpdate(user._id, {verificationToken}); //записуємо верифікаційний токен в базу
   
-      const resetLink = `https://your-frontend.com/reset-password?verificationToken=${verificationToken}`;
+      const resetLink = `${BASE_URL}/reset-password?verificationToken=${verificationToken}`;
 
       const verifyEmail = {
         to: email,
@@ -136,4 +136,29 @@ exports.forgotPassword = async (email) => {
   
  return "The email has been sent. Now you can open your email and follow the link to change your password.";
     
+};
+
+exports.resetPassword = async (verificationToken, password) => {
+  try {
+    // Знайти користувача за verificationToken
+    const user = await User.findOne({ verificationToken });
+
+    if (!user) {
+      return { status: 400, message: "Invalid or expired token" };
+    }
+
+    // Хешувати новий пароль
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Оновити пароль і очистити verificationToken
+    user.password = hashedPassword;
+    user.verificationToken = null;
+
+    await user.save();
+
+    return { status: 200, message: "Password reset successfully" };
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    return { status: 500, message: "Server error" };
+  }
 };

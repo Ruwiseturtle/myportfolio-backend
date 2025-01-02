@@ -15,6 +15,7 @@ router.post("/verify", validateBody(schemas.EmailSchema, ctrl.resendVerifyEmail)
 router.post("/login",  validateBody(schemas.registerSchema), ctrl.loginUser);
 router.post("/logout", authenticate, ctrl.logoutUser);
 router.post("/sendEmailForResetPassword", validateBody(schemas.EmailSchema), ctrl.sendEmailForResetPassword);
+router.post("/resetPassword", ctrl.resetPassword);
 router.get("/current", authenticate, ctrl.getCurrentUser);
 // router.patch("/:userId/subscription",  authenticate,  ctrl.updateUserSubscription);
 // // upload.fields([{name: "cover", maxCount:1}, {name: "subcover", maxCount:2}]) // очікуємо в двух полях файли (назва поля, максимальна кі-сть файлів)

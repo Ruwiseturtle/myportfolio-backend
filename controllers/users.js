@@ -72,10 +72,7 @@ const resendVerifyEmail = async (req, res) => {
  */
 
 const loginUser = async (req, res, next) => {
-  const { user, token } = await projectsServices.login(
-    req.body.email,
-    req.body.password
-  );
+  const { user, token } = await projectsServices.login(req.body.email, req.body.password);
   
 
   res.status(200).json({
@@ -126,6 +123,14 @@ const sendEmailForResetPassword = async (req, res, next) => {
   }
 };
 
+const resetPassword = async (req, res, next) => { 
+   const { verificationToken, password } = req.body;
+  
+  const { status, message } = await projectsServices.resetPassword(verificationToken, password);
+
+  res.status(status).json({ message });
+}
+
 
 module.exports = {
   registerUser: ctrlWrapper(registerUser),
@@ -133,6 +138,7 @@ module.exports = {
   logoutUser: ctrlWrapper(logoutUser),
   getCurrentUser: ctrlWrapper(getCurrentUser),
   sendEmailForResetPassword: ctrlWrapper(sendEmailForResetPassword),
+  resetPassword: ctrlWrapper(resetPassword),
   //   updateUserSubscription: ctrlWrapper(updateUserSubscription),
   //   updateUserAvatar: ctrlWrapper(updateUserAvatar),
   verifyEmail: ctrlWrapper(verifyEmail),
