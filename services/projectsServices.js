@@ -124,7 +124,7 @@ exports.forgotPassword = async (email) => {
 
       await User.findByIdAndUpdate(user._id, {verificationToken}); //записуємо верифікаційний токен в базу
   
-      const resetLink = `${BASE_URL}/reset-password?verificationToken=${verificationToken}`;
+      const resetLink = `${BASE_URL}/api/users/reset-password?verificationToken=${verificationToken}`;
 
       const verifyEmail = {
         to: email,
