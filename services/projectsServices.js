@@ -12,7 +12,7 @@ const jwt = require("jsonwebtoken");
 const { nanoid } = require("nanoid");
 
 const { BASE_URL } = process.env;
-
+const {GITHUB_HREF} = process.env
 /************************************************************/
 
 // отримання усіх проектів
@@ -124,7 +124,7 @@ exports.forgotPassword = async (email) => {
 
       await User.findByIdAndUpdate(user._id, {verificationToken}); //записуємо верифікаційний токен в базу
   
-      const resetLink = `${BASE_URL}/api/users/reset-password?verificationToken=${verificationToken}`;
+      const resetLink = `${GITHUB_HREF}/myportfolio/#/reset-password?verificationToken=${verificationToken}`;
 
       const verifyEmail = {
         to: email,
