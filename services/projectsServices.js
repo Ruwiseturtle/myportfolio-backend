@@ -154,7 +154,11 @@ exports.resetPassword = async (verificationToken, password) => {
     user.password = hashedPassword;
     user.verificationToken = null;
 
-    await user.save();
+    // await user.save();
+    
+       await User.findByIdAndUpdate(user._id,{password: hashedPassword, verificationToken: null,},
+         { new: true } // Повернути оновлений документ
+       );
 
     return { status: 200, message: "Password reset successfully" };
   } catch (error) {
